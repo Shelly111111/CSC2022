@@ -1,6 +1,0 @@
-G:\CSC2022\CSC2022\obj\Debug\CSC2022.njsproj.AssemblyReference.cache
-G:\CSC2022\CSC2022\obj\Debug\CSC2022.njsproj.CoreCompileInputs.cache
-G:\CSC2022\CSC2022\bin\Microsoft.NodejsTools.WebRole.dll
-G:\CSC2022\obj\Debug\CSC2022.njsproj.AssemblyReference.cache
-G:\CSC2022\obj\Debug\CSC2022.njsproj.CoreCompileInputs.cache
-G:\CSC2022\bin\Microsoft.NodejsTools.WebRole.dll
