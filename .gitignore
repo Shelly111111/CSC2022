@@ -23,6 +23,3 @@ package-lock.json
 yarn.lock
 
 data/*
-.vs
-obj/Debug
-bin
