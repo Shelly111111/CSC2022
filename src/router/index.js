@@ -71,6 +71,19 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/show',
+    component: Layout,
+    redirect: '/show/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/show/index'),
+        name: 'Show',
+        meta: { title: 'Show', icon: 'eye-open', affix: true }
+      }
+    ]
+  },
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -79,7 +92,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: 'Dashboard', icon: 'dashboard'}
       }
     ]
   },
@@ -91,20 +104,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/documentation/index'),
         name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
+        meta: { title: 'Documentation', icon: 'documentation'}
       }
     ]
   },
