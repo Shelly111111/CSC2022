@@ -6,36 +6,16 @@
     <el-col :xs="{span: 96}" :sm="{span: 48}" :md="{span: 48}" :lg="{span: 24}" :xl="{span: 24}" style="margin-bottom:30px;">
       <box-card />
     </el-col>
-    <el-button icon="el-icon-question" type="primary" @click.prevent.stop="guide">
-      Show Guide
-    </el-button>
   </div>
 </template>
 
 <script>
-import Driver from 'driver.js' // import driver.js
-import 'driver.js/dist/driver.min.css' // import driver.js css
-import steps from './steps'
 import BoxCard from './components/BoxCard'
 
 export default {
-  name: 'Guide',
+  name: 'Show',
   components: {
     BoxCard
-  },
-  data() {
-    return {
-      driver: null
-    }
-  },
-  mounted() {
-    this.driver = new Driver()
-  },
-  methods: {
-    guide() {
-      this.driver.defineSteps(steps)
-      this.driver.start()
-    }
   }
 }
 </script>
