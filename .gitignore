@@ -24,4 +24,5 @@ yarn.lock
 
 data/*
 .vs
-obj\Debug
+obj/Debug
+bin
