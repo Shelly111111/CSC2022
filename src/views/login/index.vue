@@ -1,4 +1,6 @@
 <template>
+<div>
+  <video src="../../../video/wust.mp4" style="videocss" autoplay="true" loop="true" muted="true"></video>
   <div class="box-form">
     <div class="left">
       <div class="overlay">
@@ -34,6 +36,7 @@
         </el-form>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -164,6 +167,20 @@
   };
 </script>
 <style lang="scss" scoped>
+  video {
+              position: fixed;
+              right: 0;
+              bottom: 0;
+              width: auto;
+              height: auto;
+              z-index: -100;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: fill;
+              opacity: 0.5;
+          }
   body {
     background-image: linear-gradient(135deg, #FAB2FF 10%, #1904E5 100%);
     background-size: cover;
@@ -181,6 +198,7 @@
     overflow: hidden;
     display: flex;
     flex: 1 1 100%;
+    opacity: 0.7;
     align-items: stretch;
     justify-content: space-between;
     box-shadow: 0 0 20px 6px #090b6f85;
