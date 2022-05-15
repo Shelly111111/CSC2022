@@ -13,22 +13,20 @@
       @click=" dialogVisible=true"
     >upload</el-button>
     <el-dialog :visible.sync="dialogVisible">
-      <el-upload
-        class="avatar-uploader"
-        :action="uploadUrl"
-        :show-file-list="true"
-        :on-success="handlePictureCardPreview"
-        :on-remove="handleRemove"
-        name="avatar"
-        drag
-        method="post"
-        enctype="multipart/form-data"
-      >
+      <el-upload :multiple="false"
+                 class="avatar-uploader"
+                 :action="uploadUrl"
+                 :show-file-list="true"
+                 :on-success="handlePictureCardPreview"
+                 :on-remove="handleRemove"
+                 name="avatar"
+                 drag
+                 method="post"
+                 enctype="multipart/form-data">
+        <i class="el-icon-upload" />
         <div class="el-upload__text">
-          将文件拖到此处，或
-          <em>点击上传</em>
+          将文件拖到此处，或<em>点击上传</em>
         </div>
-        <i class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
       <el-button @click="dialogVisible = false">Cancel</el-button>
       <el-button type="primary" @click="handleSubmit">Confirm</el-button>
@@ -67,12 +65,13 @@ export default {
       postFindImage().then(res => {
         // console.log(res);
         this.result = res.data.result;
-        this.imageUrl = this.result[0].imgSrc;
+        this.imageUrl = this.result[-1].imgSrc;
         console.log(this.result);
       });
     },
     handleSubmit() {
       this.postStorgeImage();
+      this.dialogVisible = false
     },
     // 成功的回调
     handlePictureCardPreview(file) {
@@ -96,22 +95,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box-card-component {
-  .box-card-header {
+
+  .upload-container {
+    width: 100%;
     position: relative;
 
-    img {
-      width: 33%;
-      height: 33%;
+    .box-card-component {
+      .box-card-header {
+        position: relative;
+
+        img {
+          width: 33%;
+          height: 33%;
+        }
+      }
+    }
+
+    .avatar-uploader {
+      width: 100%;
+      margin-bottom: 20px;
     }
   }
-}
-
-.editor-slide-upload {
-  margin-bottom: 60px;
-
-  ::v-deep .el-upload--picture-card {
-    width: 100%;
-  }
-}
 </style>
