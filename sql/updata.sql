@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `updata`;
 CREATE TABLE `updata`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `imgSrc` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `createtime` datetime(0) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
