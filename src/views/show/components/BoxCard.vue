@@ -11,8 +11,8 @@
                        icon="el-icon-upload"
                        size="mini"
                        type="primary"
-                       @click=" dialogVisible=true">upload</el-button>
-            <el-dialog :visible.sync="dialogVisible">
+                       @click="dialog1Visible=true">upload</el-button>
+            <el-dialog :visible.sync="dialog1Visible">
               <el-upload :multiple="false"
                          class="avatar-uploader"
                          :action="uploadUrl"
@@ -44,10 +44,10 @@
                        icon="el-icon-upload"
                        size="mini"
                        type="primary"
-                       @click=" dialogVisible=true">upload</el-button>
-            <el-dialog :visible.sync="dialogVisible">
+                       @click="dialog2Visible=true">upload</el-button>
+            <el-dialog :visible.sync="dialog2Visible">
               <el-upload :multiple="false"
-                         class="avatar-uploader"
+                         class="avatar2-uploader"
                          :action="uploadUrl"
                          :show-file-list="true"
                          :on-success="handle2PictureCardPreview"
@@ -86,7 +86,8 @@
       return {
         imageUrl: "",
         imageUrl2: "",
-        dialogVisible: false,
+        dialog1Visible: false,
+        dialog2Visible: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
         base64: []
@@ -116,11 +117,11 @@
       },
       handleSubmit() {
         this.postStorgeImage();
-        this.dialogVisible = false
+        this.dialog1Visible = false
       },
       handle2Submit() {
         this.postStorge2Image();
-        this.dialogVisible = false
+        this.dialog2Visible = false
       },
       // 成功的回调
       handlePictureCardPreview(file) {
