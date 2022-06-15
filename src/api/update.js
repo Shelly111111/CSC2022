@@ -1,5 +1,14 @@
 import { instance } from '../utils/request'
 
+import axios from 'axios'
+
+export function sendImage(imgSrc1, imgSrc2) {
+  var data = new URLSearchParams();
+  data.append('img1', imgSrc1);
+  data.append('img2', imgSrc2);
+  return axios.post('http://localhost:8000/recvImg', data)
+}
+
 export function postStorgeImage(imgSrc) {
   return instance({
     url: `/post_storage_image`,

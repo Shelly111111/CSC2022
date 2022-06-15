@@ -27,3 +27,4 @@ data/*
 bin
 obj/Debug
 service/upload/*
+*.pyc

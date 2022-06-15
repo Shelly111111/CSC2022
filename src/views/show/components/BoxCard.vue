@@ -1,13 +1,14 @@
 <template>
   <div class="upload-container">
-    <split-pane split="vertical" min-percent="50">
-      <template slot="paneL">
+    <el-row>
+      <el-col :span="12">
         <el-card class="box-card-component">
           <div class="box-card-header" slot="header">
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
           </div>
           <div class="box-card-body">
-            <el-button :style="{background:color,borderColor:color}"
+            <el-button
+                       :style="{background:color,borderColor:color}"
                        icon="el-icon-upload"
                        size="mini"
                        type="primary"
@@ -33,10 +34,10 @@
             </el-dialog>
           </div>
         </el-card>
-      </template>
-      <template slot="paneR">
+      </el-col>
+      <el-col :span="12">
         <el-card class="box-card-component">
-          <div class="box-card-header" slot="header">
+          <div slot="header" class="box-card-header">
             <img v-if="imageUrl2" :src="imageUrl2" class="avatar2" />
           </div>
           <div class="box-card-body">
@@ -45,6 +46,10 @@
                        size="mini"
                        type="primary"
                        @click="dialog2Visible=true">upload</el-button>
+            <el-button :style="{background:color,borderColor:color}"
+                       size="mini"
+                       type="primary"
+                       @click="sendImage">check</el-button>
             <el-dialog :visible.sync="dialog2Visible">
               <el-upload :multiple="false"
                          class="avatar2-uploader"
@@ -66,14 +71,14 @@
             </el-dialog>
           </div>
         </el-card>
-      </template>
-    </split-pane>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
   import splitPane from 'vue-splitpane'
-  import { postStorgeImage, postFindImage } from "../../../api/update";
+  import { postStorgeImage, postFindImage, sendImage } from "../../../api/update";
   export default {
     props: {
       color: {
@@ -107,9 +112,11 @@
           console.log(res);
         });
       },
+      sendImage() {
+        sendImage(this.imageUrl, this.imageUrl2);
+      },
       postFindImage() {
         postFindImage().then(res => {
-          // console.log(res);
           this.result = res.data.result;
           this.imageUrl = this.result[this.result.length - 1].imgSrc;
           this.imageUrl2 = this.result[this.result.length - 2].imgSrc;
@@ -126,20 +133,12 @@
       // 成功的回调
       handlePictureCardPreview(file) {
         this.imageUrl = file;
-        // this.dialogVisible = false;
-        // console.log(file);
         this.base64.push(file);
-        // console.log(this.base64);
-        // console.log(file);
       },
       // 成功的回调
       handle2PictureCardPreview(file) {
         this.imageUrl2 = file;
-        // this.dialogVisible = false;
-        // console.log(file);
         this.base64.push(file);
-        // console.log(this.base64);
-        // console.log(file);
       },
       // 移除图片
       handleRemove(file, fileList) {
@@ -147,7 +146,6 @@
         fileList.forEach(item => {
           this.base64.push(item.response);
         });
-        // console.log("this.base64", this.base64);
       }
     }
   };
@@ -157,8 +155,6 @@
 
   .upload-container {
     width: 100%;
-    position: relative;
-    height: 100vh;
 
     .box-card-component {
       .box-card-header {
