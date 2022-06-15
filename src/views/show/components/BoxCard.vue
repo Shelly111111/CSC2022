@@ -113,7 +113,9 @@
         });
       },
       sendImage() {
-        sendImage(this.imageUrl, this.imageUrl2);
+        sendImage(this.imageUrl, this.imageUrl2).then(res => {
+          console.log(res);
+        });
       },
       postFindImage() {
         postFindImage().then(res => {
