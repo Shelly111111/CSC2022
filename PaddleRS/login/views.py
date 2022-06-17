@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import HttpResponse
 import base64
 import cv2
@@ -13,7 +12,6 @@ import paddle
 import paddlers as pdrs
 from paddlers import transforms as T
 
-from numpy.core.multiarray import frompyfunc
 
 #paddle.device.set_device('cpu')
 
@@ -229,4 +227,5 @@ def recvImg(request):
       out = (prob>0.5)*255
       out = out.astype(np.uint8).squeeze()
       cv2.imwrite('out.png',out)
-  return HttpResponse('OK')
+  retval,img_buffer = cv2.imencode('.jpg', out)
+  return HttpResponse('data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1])
