@@ -71,15 +71,15 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/show',
+    path: '/ChangeDetection',
     component: Layout,
-    redirect: '/show/index',
+    //redirect: '/show/index',
     children: [
       {
         path: 'index',
-        component: () => import('@/views/show/index'),
-        name: 'Show',
-        meta: { title: 'Show', icon: 'eye-open', affix: true }
+        component: () => import('@/views/ChangeDetection/index'),
+        name: 'ChangeDetection',
+        meta: { title: '变化检测', icon: 'form', affix: true }
       }
     ]
   },
@@ -97,14 +97,14 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/documentation',
+    path: '/BasicDetection',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: 'Documentation', icon: 'documentation'}
+        component: () => import('@/views/BasicDetection/index'),
+        name: 'BasicDetection',
+        meta: { title: '基础检测', icon: 'documentation'}
       }
     ]
   },

@@ -19,9 +19,10 @@
         </div>
       </el-col>
       <el-col :span="4">
-        <el-card>
-          <div slot="header" class="box-card-header" style="display: flex; justify-content: space-between">
+        <el-card class="analyse-card">
+          <div class="box-card-header" style="display: flex; justify-content: space-between">
             <div class="timelabel4">
+              结果分析
             </div>
             <el-button :style="{background: color, borderColor: color}"
                        icon="el-icon-mouse"
@@ -219,6 +220,13 @@
     }
 
     .timelabel1 {
+      font-size: 18px;
+      text-shadow: 1px 0px lightslategrey;
+      font-weight: bold;
+      color: lightslategrey;
+    }
+
+    .timelabel4 {
       font-size: 18px;
       text-shadow: 1px 0px lightslategrey;
       font-weight: bold;

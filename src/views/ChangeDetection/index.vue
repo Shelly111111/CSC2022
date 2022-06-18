@@ -65,14 +65,11 @@
 
 <script>
   import BoxCard from './components/BoxCard'
-  //import editorImage from './components/EditorImage'
-
 
   export default {
-    name: 'Show',
+    name: 'ChangeDetection',
     components: {
-      BoxCard,
-      //editorImage
+      BoxCard
     },
     data() {
       return {
