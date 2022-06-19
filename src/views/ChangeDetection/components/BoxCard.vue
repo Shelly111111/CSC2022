@@ -4,9 +4,9 @@
       <el-col :span="14">
         <el-card class="detected-card">
           <div class="box-card-header" style="display: flex; justify-content: space-between">
-            <div class="timelabel1">
+            <span class="timelabel1">
               检测图片
-            </div>
+            </span>
             <el-button :style="{background: color, borderColor: color}"
                        icon="el-icon-mouse"
                        size="mini"
@@ -21,9 +21,9 @@
       <el-col :span="4">
         <el-card class="analyse-card">
           <div class="box-card-header" style="display: flex; justify-content: space-between">
-            <div class="timelabel4">
+            <span class="timelabel4">
               结果分析
-            </div>
+            </span>
             <el-button :style="{background: color, borderColor: color}"
                        icon="el-icon-mouse"
                        size="mini"
@@ -36,9 +36,9 @@
         <el-row :span="4">
           <el-card class="box-card-component">
             <div class="box-card-header" slot="header">
-              <div class="timelabel2">
+              <span class="timelabel2">
                 原始图片
-              </div>
+              </span>
               <el-button :style="{background:color,borderColor:color}"
                          icon="el-icon-upload"
                          size="mini"
@@ -72,9 +72,9 @@
         <el-row :span="4">
           <el-card class="box-card-component">
             <div slot="header" class="box-card-header">
-              <div class="timelabel3">
+              <span class="timelabel3">
                 变化图片
-              </div>
+              </span>
               <el-button :style="{background:color,borderColor:color}"
                          icon="el-icon-upload"
                          size="mini"
