@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from login import changedetection
+from login import changedetection, targetextraction
 
 urlpatterns = [
     path('cdrecvImg', changedetection.recvImg),
+    path('terecvImg', targetextraction.recvImg),
 ]

@@ -20,8 +20,6 @@ from paddlers import transforms as T
 # 定义全局变量
 # 可在此处调整实验所用超参数
 
-# 数据集路径
-DATA_DIR = '../data/'
 # 实验路径。实验目录下保存输出的模型权重和结果
 EXP_DIR = '../data/exp/'
 # 保存最佳模型的路径

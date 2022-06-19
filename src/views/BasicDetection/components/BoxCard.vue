@@ -11,7 +11,7 @@
                        icon="el-icon-mouse"
                        size="mini"
                        type="primary"
-                       @click="sendImage">check</el-button>
+                       @click="sendImage2te">check</el-button>
           </div>
         </el-card>
         <div class="detected-body">
@@ -94,7 +94,7 @@
 
 <script>
   import splitPane from 'vue-splitpane'
-  import { postStorgeImage, postFindImage, sendImage } from "../../../api/update";
+  import { postStorgeImage, postFindImage, sendImage2te } from "../../../api/update";
   export default {
     props: {
       color: {
@@ -123,10 +123,10 @@
           console.log(res);
         });
       },
-      sendImage() {
-        sendImage(this.imageUrl, this.imageUrl2).then(res => {
+      sendImage2te() {
+        sendImage2te(this.imageUrl).then(res => {
           console.log(res);
-          this.imageUrl3 = res.data;
+          this.imageUrl2 = res.data;
         });
       },
       Analyse() {
