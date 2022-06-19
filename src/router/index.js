@@ -79,7 +79,19 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/ChangeDetection/index'),
         name: 'ChangeDetection',
-        meta: { title: '变化检测', icon: 'form', affix: true }
+        meta: { title: '变化检测', icon: 'form'}
+      }
+    ]
+  },
+  {
+    path: '/TargetExtraction',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/TargetExtraction/index'),
+        name: 'TargetExtraction',
+        meta: { title: '目标提取', icon: 'documentation'}
       }
     ]
   },
@@ -92,19 +104,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard'}
-      }
-    ]
-  },
-  {
-    path: '/BasicDetection',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/BasicDetection/index'),
-        name: 'BasicDetection',
-        meta: { title: '基础检测', icon: 'documentation'}
+        meta: { title: 'Dashboard', icon: 'dashboard' }
       }
     ]
   },
