@@ -1,16 +1,10 @@
 # 导入需要用到的库
 
-import random
 import os.path as osp
 
-import cv2
-import numpy as np
 import paddle
 import paddlers as pdrs
 from paddlers import transforms as T
-from paddlers.tasks.utils.visualize import visualize_detection
-from matplotlib import pyplot as plt
-from PIL import Image
 
 
 # 定义全局变量
