@@ -1,3 +1,4 @@
+import random
 import os
 import os.path as osp
 from copy import deepcopy
@@ -7,6 +8,10 @@ import numpy as np
 import paddle
 import paddlers as pdrs
 from paddlers import transforms as T
+from PIL import Image
+from skimage.io import imread, imsave
+from tqdm import tqdm
+from matplotlib import pyplot as plt
 
 # 定义全局变量
 # 可在此处调整实验所用超参数
@@ -225,27 +230,47 @@ state_dict = paddle.load(BEST_CKP_PATH)
 model.net.set_state_dict(state_dict)
 
 # 实例化测试集
-compose = T.Compose([
+test_dataset = InferDataset(
+    DATA_DIR,
+    # 注意，测试阶段使用的归一化方式需与训练时相同
+    T.Compose([
         T.Normalize(
             mean=[0.5, 0.5, 0.5],
             std=[0.5, 0.5, 0.5]
         )
     ])
+)
+
+# 创建DataLoader
+test_dataloader = paddle.io.DataLoader(
+    test_dataset,
+    batch_size=1,
+    shuffle=False,
+    num_workers=0,
+    drop_last=False,
+    return_list=True
+)
+test_dataloader = crop_patches(
+    test_dataloader,
+    ORIGINAL_SIZE,
+    CROP_SIZE,
+    STRIDE
+)
 
 model.net.eval()
-#len_test = len(test_dataset.names)
-#with paddle.no_grad():
-#    for name, (t1, t2) in tqdm(zip(test_dataset.names, test_dataloader), total=len_test):
-#        shape = paddle.shape(t1)
-#        pred = paddle.zeros(shape=(shape[0],2,*shape[2:]))
-#        for i in range(0, shape[0], INFER_BATCH_SIZE):
-#            pred[i:i+INFER_BATCH_SIZE] = model.net(t1[i:i+INFER_BATCH_SIZE], t2[i:i+INFER_BATCH_SIZE])[0]
-#        # 取softmax结果的第1（从0开始计数）个通道的输出作为变化概率
-#        prob = paddle.nn.functional.softmax(pred, axis=1)[:,1]
-#        # 由patch重建完整概率图
-#        prob = recons_prob_map(prob.numpy(), ORIGINAL_SIZE, CROP_SIZE, STRIDE)
-#        # 默认将阈值设置为0.5，即，将变化概率大于0.5的像素点分为变化类
-#        out = (prob>0.5)*255
-#        out = out.astype(np.uint8)
+len_test = len(test_dataset.names)
+with paddle.no_grad():
+    for name, (t1, t2) in tqdm(zip(test_dataset.names, test_dataloader), total=len_test):
+        shape = paddle.shape(t1)
+        pred = paddle.zeros(shape=(shape[0],2,*shape[2:]))
+        for i in range(0, shape[0], INFER_BATCH_SIZE):
+            pred[i:i+INFER_BATCH_SIZE] = model.net(t1[i:i+INFER_BATCH_SIZE], t2[i:i+INFER_BATCH_SIZE])[0]
+        # 取softmax结果的第1（从0开始计数）个通道的输出作为变化概率
+        prob = paddle.nn.functional.softmax(pred, axis=1)[:,1]
+        # 由patch重建完整概率图
+        prob = recons_prob_map(prob.numpy(), ORIGINAL_SIZE, CROP_SIZE, STRIDE)
+        # 默认将阈值设置为0.5，即，将变化概率大于0.5的像素点分为变化类
+        out = (prob>0.5)*255
+        out = out.astype(np.uint8)
 
-#        imsave(osp.join(out_dir, name), out, check_contrast=False)
+        imsave(osp.join(out_dir, name), out, check_contrast=False)

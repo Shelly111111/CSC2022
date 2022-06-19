@@ -1,3 +1,4 @@
+from re import S
 from django.shortcuts import HttpResponse
 import base64
 import cv2
@@ -26,46 +27,62 @@ EXP_DIR = '../data/exp/'
 # 保存最佳模型的路径
 BEST_CKP_PATH = osp.join(EXP_DIR, 'best_model', 'model.pdparams')
 
-# 训练阶段 batch size
-TRAIN_BATCH_SIZE = 1
 # 推理阶段 batch size
 INFER_BATCH_SIZE = 1
 # 裁块大小
 CROP_SIZE = 512
 # 模型推理阶段使用的滑窗步长
-STRIDE = 32
+STRIDE = 64
 # 影像原始大小
 ORIGINAL_SIZE = (1024, 1024)
-
-# 定义推理阶段使用的数据集
 
 class InferDataset(paddle.io.Dataset):
     """
     变化检测推理数据集。
 
     Args:
-        data_dir (str): 数据集所在的目录路径。
+        data (str): 数据。
         transforms (paddlers.transforms.Compose): 需要执行的数据变换操作。
     """
 
     def __init__(
         self,
-        #data_dir,
         data,
         transforms
     ):
         super().__init__()
 
-        self.transforms = transforms
-        self.data = deepcopy(data)
+        self.data = data
+        self.transforms = deepcopy(transforms)
+
+        pdrs.transforms.arrange_transforms(
+            model_type='changedetector',
+            transforms=self.transforms,
+            mode='test'
+        )
+        t1 = data['img1'][0].strip('data:false;base64,')
+        t2 = data['img2'][0].strip('data:false;base64,')
+        t1 = base64.b64decode(t1)
+        t2 = base64.b64decode(t2)
+        t1 = cv2.imdecode(np.frombuffer(t1, np.uint8), cv2.IMREAD_COLOR)
+        t2 = cv2.imdecode(np.frombuffer(t2, np.uint8), cv2.IMREAD_COLOR)
+        samples = []
+        item_dict = {
+            'image_t1': t1,
+            'image_t2': t2
+        }
+        samples.append(item_dict)
+
+        self.samples = samples
 
     def __getitem__(self, idx):
-        return self.data[0], \
-               self.data[1]
+        sample = deepcopy(self.samples[idx])
+        output = self.transforms(sample)
+        return paddle.to_tensor(output[0]), \
+               paddle.to_tensor(output[1])
 
     def __len__(self):
-        return len(self.data)
-
+        return len(self.samples)
 
 # 考虑到原始影像尺寸较大，以下类和函数与影像裁块-拼接有关。
 
@@ -111,7 +128,7 @@ class WindowGenerator:
         self._j = 0
 
     
-def crop_patches(ims, ori_size, window_size, stride):
+def crop_patches(dataloader, ori_size, window_size, stride):
     """
     将`dataloader`中的数据裁块。
 
@@ -126,16 +143,16 @@ def crop_patches(ims, ori_size, window_size, stride):
             `window_size`和`stride`均为512时，`crop_patches`返回的每一项的batch_size都将是iter(`dataloader`)中对应项的4倍。
     """
 
-    #for ims in dataloader:
-    ims = list(ims)
-    h, w = ori_size
-    win_gen = WindowGenerator(h, w, window_size, window_size, stride, stride)
-    all_patches = []
-    for rows, cols in win_gen:
-        # NOTE: 此处不能使用生成器，否则因为lazy evaluation的缘故会导致结果不是预期的
-        patches = [im[...,rows,cols] for im in ims]
-        all_patches.append(patches)
-    yield tuple(map(partial(paddle.concat, axis=0), zip(*all_patches)))
+    for ims in dataloader:
+        ims = list(ims)
+        h, w = ori_size
+        win_gen = WindowGenerator(h, w, window_size, window_size, stride, stride)
+        all_patches = []
+        for rows, cols in win_gen:
+            # NOTE: 此处不能使用生成器，否则因为lazy evaluation的缘故会导致结果不是预期的
+            patches = [im[...,rows,cols] for im in ims]
+            all_patches.append(patches)
+        yield tuple(map(partial(paddle.concat, axis=0), zip(*all_patches)))
 
 
 def recons_prob_map(patches, ori_size, window_size, stride):
@@ -151,14 +168,6 @@ def recons_prob_map(patches, ori_size, window_size, stride):
         cnt[rows, cols] += 1
     prob_map /= cnt
     return prob_map
-
-# 实例化测试集
-compose = T.Compose([
-        T.Normalize(
-            mean=[0.5, 0.5, 0.5],
-            std=[0.5, 0.5, 0.5]
-        )
-    ])
 
 # 调用PaddleRS API一键构建模型
 model = pdrs.tasks.BIT(
@@ -202,19 +211,32 @@ model.net.eval()
 # Create your views here.
 def recvImg(request):
   data = dict(request.POST)
-  t1 = data['img1'][0].strip('data:false;base64,')
-  t2 = data['img2'][0].strip('data:false;base64,')
-  t1 = base64.b64decode(t1)
-  t2 = base64.b64decode(t2)
-  t1 = cv2.imdecode(np.frombuffer(t1, np.uint8), cv2.IMREAD_COLOR)
-  t2 = cv2.imdecode(np.frombuffer(t2, np.uint8), cv2.IMREAD_COLOR)
-  t1=paddle.to_tensor(t1,dtype='float32').transpose([2,0,1]).unsqueeze(0)
-  t2=paddle.to_tensor(t2,dtype='float32').transpose([2,0,1]).unsqueeze(0)
+  # 实例化测试集
+  test_dataset = InferDataset(
+      data,
+      # 注意，测试阶段使用的归一化方式需与训练时相同
+      T.Compose([
+          T.Normalize(
+              mean=[0.5, 0.5, 0.5],
+              std=[0.5, 0.5, 0.5]
+          )
+      ])
+  )
+
+  # 创建DataLoader
+  test_dataloader = paddle.io.DataLoader(
+      test_dataset,
+      batch_size=1,
+      shuffle=False,
+      num_workers=0,
+      drop_last=True,
+      return_list=True
+  )
   test_dataloader = crop_patches(
-    [t1,t2],
-    ORIGINAL_SIZE,
-    CROP_SIZE,
-    STRIDE
+      test_dataloader,
+      ORIGINAL_SIZE,
+      CROP_SIZE,
+      STRIDE
   )
   with paddle.no_grad():
     for (t1, t2) in test_dataloader:
