@@ -108,6 +108,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/ObjectDetection',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/ObjectDetection/index'),
+        name: 'ObjectDetection',
+        meta: { title: '目标检测', icon: 'documentation' }
+      }
+    ]
+  },
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
