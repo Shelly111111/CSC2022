@@ -1,4 +1,3 @@
-from re import S
 from django.shortcuts import HttpResponse
 import base64
 import cv2

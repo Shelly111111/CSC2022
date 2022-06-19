@@ -20,19 +20,19 @@ from paddlers import transforms as T
 # 可在此处调整实验所用超参数
 
 # 实验目录，保存输出的模型权重和结果
-EXP_DIR =  '../data/te_exp/'
+EXP_DIR =  '../data/tc_exp/'
 # 保存最佳模型的路径
 BEST_CKP_PATH = osp.join(EXP_DIR, 'best_model', 'model.pdparams')
 
 # 构建DeepLab V3+模型，使用ResNet-50作为backbone
 model = pdrs.tasks.DeepLabV3P(
     input_channel=3,
-    num_classes=2,
+    num_classes=5,
     backbone='ResNet50_vd'
 )
 
 eval_transforms = T.Compose([
-    T.Resize(target_size=1488),
+    T.Resize(target_size=256),
     # 验证阶段与训练阶段的数据归一化方式必须相同
     T.Normalize(
         mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
@@ -89,9 +89,19 @@ model.net.set_state_dict(state_dict)
 
 model.net.eval()
 
+def get_lut():
+    lut = np.zeros((256,3), dtype=np.uint8)
+    lut[0] = [255, 0, 0]
+    lut[1] = [30, 255, 142]
+    lut[2] = [60, 0, 255]
+    lut[3] = [255, 222, 0]
+    lut[4] = [0, 0, 0]
+    return lut
+
 # Create your views here.
 def recvImg(request):
   data = dict(request.POST)
+  lut=get_lut()
   # 实例化测试集
   test_dataset = InferDataset(
       data,
@@ -101,7 +111,8 @@ def recvImg(request):
   with paddle.no_grad():
     for input in test_dataset:
       logits, *_ = model.net(input)
-      out = paddle.argmax(logits[0], axis=0).numpy()*255
-      cv2.imwrite('te_out.png',out)
+      out = paddle.argmax(logits[0], axis=0).numpy()
+      out = lut[out]
+      cv2.imwrite('tc_out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
   return HttpResponse('data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1])
