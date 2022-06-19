@@ -15,6 +15,12 @@ export function sendImage2te(imgSrc) {
   return axios.post('http://localhost:8000/terecvImg', data)
 }
 
+export function sendImage2tc(imgSrc) {
+  var data = new URLSearchParams();
+  data.append('img', imgSrc);
+  return axios.post('http://localhost:8000/tcrecvImg', data)
+}
+
 export function postStorgeImage(imgSrc) {
   return instance({
     url: `/post_storage_image`,

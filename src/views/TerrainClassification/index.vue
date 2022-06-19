@@ -11,7 +11,7 @@
 import BoxCard from './components/BoxCard'
 
 export default {
-  name: 'TargetExtraction',
+  name: 'TerrainClassification',
   components: {
     BoxCard
   },

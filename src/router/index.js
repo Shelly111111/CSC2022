@@ -96,6 +96,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/TerrainClassification',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/TerrainClassification/index'),
+        name: 'TerrainClassification',
+        meta: { title: '地物分类', icon: 'documentation' }
+      }
+    ]
+  },
+  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
