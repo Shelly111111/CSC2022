@@ -112,7 +112,7 @@
 
 <script>
   import splitPane from 'vue-splitpane'
-  import { postStorgeImage, postFindImage, sendImage } from "../../../api/update";
+  import { postStorgeImage, postStorge2Image, postFindImage, postFind2Image, sendImage } from "../../../api/update";
   export default {
     props: {
       color: {
@@ -135,6 +135,7 @@
     },
     mounted() {
       this.postFindImage();
+      this.postFind2Image();
     },
     methods: {
       postStorgeImage() {
@@ -143,7 +144,7 @@
         });
       },
       postStorge2Image() {
-        postStorgeImage(this.imageUrl2).then(res => {
+        postStorge2Image(this.imageUrl2).then(res => {
           console.log(res);
         });
       },
@@ -158,9 +159,14 @@
       },
       postFindImage() {
         postFindImage().then(res => {
-          this.result = res.data.result;
-          this.imageUrl = this.result[this.result.length - 1].imgSrc;
-          this.imageUrl2 = this.result[this.result.length - 2].imgSrc;
+          var result1 = res.data.result;
+          this.imageUrl = result1[result1.length - 1].imgSrc;
+        });
+      },
+      postFind2Image() {
+        postFind2Image().then(res => {
+          var result2 = res.data.result;
+          this.imageUrl2 = result2[result2.length - 1].imgSrc;
         });
       },
       handleSubmit() {

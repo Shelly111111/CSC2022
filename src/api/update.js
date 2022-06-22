@@ -37,9 +37,81 @@ export function postStorgeImage(imgSrc) {
   })
 }
 
+export function postStorge2Image(imgSrc) {
+  return instance({
+    url: `/post_storage_image2`,
+    method: 'POST',
+    data: {
+      imgSrc
+    }
+  })
+}
+
+export function postTargetExtractionImage(imgSrc) {
+  return instance({
+    url: `/post_targetextraction_image`,
+    method: 'POST',
+    data: {
+      imgSrc
+    }
+  })
+}
+
+export function postTerrainClassificationImage(imgSrc) {
+  return instance({
+    url: `/post_terrainclassification_image`,
+    method: 'POST',
+    data: {
+      imgSrc
+    }
+  })
+}
+
+export function postObjectDetectionImage(imgSrc) {
+  return instance({
+    url: `/post_objectdetection_image`,
+    method: 'POST',
+    data: {
+      imgSrc
+    }
+  })
+}
+
 export function postFindImage() {
   return instance({
-    url: `/post_find_image`,
+    url: `/post_find_image1`,
+    method: 'POST',
+
+  })
+}
+
+export function postFind2Image() {
+  return instance({
+    url: `/post_find_image2`,
+    method: 'POST',
+
+  })
+}
+
+export function FindTargetExtractionImage() {
+  return instance({
+    url: `/find_targetextraction_image`,
+    method: 'POST',
+
+  })
+}
+
+export function FindTerrainClassificationImage() {
+  return instance({
+    url: `/find_terrainclassification_image`,
+    method: 'POST',
+
+  })
+}
+
+export function FindObjectDetectionImage() {
+  return instance({
+    url: `/find_objectdetection_image`,
     method: 'POST',
 
   })

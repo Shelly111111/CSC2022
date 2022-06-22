@@ -94,7 +94,7 @@
 
 <script>
   import splitPane from 'vue-splitpane'
-  import { postStorgeImage, postFindImage, sendImage2te } from "../../../api/update";
+  import { postTargetExtractionImage, FindTargetExtractionImage, sendImage2te } from "../../../api/update";
   export default {
     props: {
       color: {
@@ -108,18 +108,17 @@
         imageUrl: "",
         imageUrl2: "",
         dialog1Visible: false,
-        dialog2Visible: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
         base64: []
       };
     },
     mounted() {
-      this.postFindImage();
+      this.FindTargetExtractionImage();
     },
     methods: {
-      postStorgeImage() {
-        postStorgeImage(this.imageUrl).then(res => {
+      postTargetExtractionImage() {
+        postTargetExtractionImage(this.imageUrl).then(res => {
           console.log(res);
         });
       },
@@ -132,15 +131,14 @@
       Analyse() {
 
       },
-      postFindImage() {
-        postFindImage().then(res => {
+      FindTargetExtractionImage() {
+        FindTargetExtractionImage().then(res => {
           this.result = res.data.result;
           this.imageUrl = this.result[this.result.length - 1].imgSrc;
-          this.imageUrl2 = this.result[this.result.length - 2].imgSrc;
         });
       },
       handleSubmit() {
-        this.postStorgeImage();
+        this.postTargetExtractionImage();
         this.dialog1Visible = false
       },
       // 成功的回调

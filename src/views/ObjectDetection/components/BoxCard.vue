@@ -94,7 +94,7 @@
 
 <script>
   import splitPane from 'vue-splitpane'
-  import { postStorgeImage, postFindImage, sendImage2od } from "../../../api/update";
+  import { postObjectDetectionImage, FindObjectDetectionImage, sendImage2od } from "../../../api/update";
   export default {
     props: {
       color: {
@@ -115,11 +115,11 @@
       };
     },
     mounted() {
-      this.postFindImage();
+      this.FindObjectDetectionImage();
     },
     methods: {
-      postStorgeImage() {
-        postStorgeImage(this.imageUrl).then(res => {
+      postObjectDetectionImage() {
+        postObjectDetectionImage(this.imageUrl).then(res => {
           console.log(res);
         });
       },
@@ -132,15 +132,14 @@
       Analyse() {
 
       },
-      postFindImage() {
-        postFindImage().then(res => {
+      FindObjectDetectionImage() {
+        FindObjectDetectionImage().then(res => {
           this.result = res.data.result;
           this.imageUrl = this.result[this.result.length - 1].imgSrc;
-          this.imageUrl2 = this.result[this.result.length - 2].imgSrc;
         });
       },
       handleSubmit() {
-        this.postStorgeImage();
+        this.postObjectDetectionImage();
         this.dialog1Visible = false
       },
       // 成功的回调
