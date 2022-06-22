@@ -34,19 +34,19 @@
             <div class="box-card-body">
               <div style="padding-top:35px;" class="progress-item">
                 <span>房屋</span>
-                <el-progress :percentage="70" />
+                <el-progress :percentage="0" />
               </div>
               <div class="progress-item">
                 <span>森林</span>
-                <el-progress :percentage="18" />
+                <el-progress :percentage="0" />
               </div>
               <div class="progress-item">
                 <span>道路</span>
-                <el-progress :percentage="12" />
+                <el-progress :percentage="0" />
               </div>
               <div class="progress-item">
                 <span>田地</span>
-                <el-progress :percentage="100" status="success" />
+                <el-progress :percentage="0"/>
               </div>
             </div>
           </el-card>

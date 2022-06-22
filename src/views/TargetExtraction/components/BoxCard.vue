@@ -32,21 +32,9 @@
                          @click="Analyse">analyse</el-button>
             </div>
             <div class="box-card-body">
-              <div style="padding-top:35px;" class="progress-item">
-                <span>房屋</span>
-                <el-progress :percentage="70" />
-              </div>
               <div class="progress-item">
-                <span>森林</span>
-                <el-progress :percentage="18" />
-              </div>
-              <div class="progress-item">
-                <span>道路</span>
-                <el-progress :percentage="12" />
-              </div>
-              <div class="progress-item">
-                <span>田地</span>
-                <el-progress :percentage="100" status="success" />
+                <span>道路所占比例</span>
+                <el-progress :percentage="roat" />
               </div>
             </div>
           </el-card>
@@ -107,6 +95,7 @@
       return {
         imageUrl: "",
         imageUrl2: "",
+        roat: 0,
         dialog1Visible: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",

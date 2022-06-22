@@ -21,7 +21,7 @@
       <el-col :span="6">
         <el-row :span="4">
           <el-card class="box-card-component">
-            <div class="box-card-header" slot="header">
+            <div class="box-card-header">
               <div class="timelabel3">
                 结果分析
               </div>
@@ -31,25 +31,28 @@
                          type="primary"
                          @click="Analyse">analyse</el-button>
             </div>
-            <div class="box-card-body">
-              <div style="padding-top:35px;" class="progress-item">
-                <span>房屋</span>
-                <el-progress :percentage="70" />
-              </div>
-              <div class="progress-item">
-                <span>森林</span>
-                <el-progress :percentage="18" />
-              </div>
-              <div class="progress-item">
-                <span>道路</span>
-                <el-progress :percentage="12" />
-              </div>
-              <div class="progress-item">
-                <span>田地</span>
-                <el-progress :percentage="100" status="success" />
-              </div>
-            </div>
           </el-card>
+          <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%" class="el-table">
+            <el-table-column align="center" label="ID" width="80px">
+              <template slot-scope="{row}">
+                <span>{{ row.id }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="Class" min-width="100px">
+              <template slot-scope="{row}">
+                <el-tag :type="row.class">
+                  {{ row.class }}
+                </el-tag>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="Score" min-width="100px">
+              <template slot-scope="{row}">
+                <el-tag :type="row.score">
+                  {{ row.score }}
+                </el-tag>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-row>
         <el-row :span="4">
           <el-card class="box-card-component">
@@ -107,8 +110,9 @@
       return {
         imageUrl: "",
         imageUrl2: "",
+        list: null,
+        listLoading: false,
         dialog1Visible: false,
-        dialog2Visible: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
         base64: []
