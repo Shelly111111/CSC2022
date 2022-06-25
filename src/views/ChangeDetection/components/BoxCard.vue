@@ -1,7 +1,7 @@
 <template>
   <div class="upload-container">
     <el-row>
-      <el-col :span="14">
+      <el-col :span="16">
         <el-card class="detected-card">
           <div class="box-card-header" style="display: flex; justify-content: space-between">
             <span class="timelabel1">
@@ -18,21 +18,22 @@
           <img v-if="imageUrl3" :src="imageUrl3" class="avatar" />
         </div>
       </el-col>
-      <el-col :span="4">
-        <el-card class="analyse-card">
-          <div class="box-card-header" style="display: flex; justify-content: space-between">
-            <span class="timelabel4">
-              结果分析
-            </span>
-            <el-button :style="{background: color, borderColor: color}"
-                       icon="el-icon-mouse"
-                       size="mini"
-                       type="primary"
-                       @click="Analyse">analyse</el-button>
-          </div>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
+      <el-col :span="8">
+        <el-row :span="4">
+          <el-card class="analyse-card">
+            <div slot="header" class="box-card-header" style="display: flex; justify-content: space-between">
+              <span class="timelabel4">
+                结果分析
+              </span>
+            </div>
+            <div class="box-card-body">
+              <div class="progress-item">
+                <span>变化面积所占比例</span>
+                <el-progress :percentage="percent" />
+              </div>
+            </div>
+          </el-card>
+        </el-row>
         <el-row :span="4">
           <el-card class="box-card-component">
             <div class="box-card-header" slot="header">
@@ -40,21 +41,21 @@
                 原始图片
               </span>
               <el-button :style="{background:color,borderColor:color}"
-                         icon="el-icon-upload"
-                         size="mini"
-                         type="primary"
-                         @click="dialog1Visible=true">upload</el-button>
+                          icon="el-icon-upload"
+                          size="mini"
+                          type="primary"
+                          @click="dialog1Visible=true">upload</el-button>
               <el-dialog :visible.sync="dialog1Visible">
                 <el-upload :multiple="false"
-                           class="avatar-uploader"
-                           :action="uploadUrl"
-                           :show-file-list="true"
-                           :on-success="handlePictureCardPreview"
-                           :on-remove="handleRemove"
-                           name="avatar"
-                           drag
-                           method="post"
-                           enctype="multipart/form-data">
+                            class="avatar-uploader"
+                            :action="uploadUrl"
+                            :show-file-list="true"
+                            :on-success="handlePictureCardPreview"
+                            :on-remove="handleRemove"
+                            name="avatar"
+                            drag
+                            method="post"
+                            enctype="multipart/form-data">
                   <i class="el-icon-upload" />
                   <div class="el-upload__text">
                     将文件拖到此处，或<em>点击上传</em>
@@ -76,21 +77,21 @@
                 变化图片
               </span>
               <el-button :style="{background:color,borderColor:color}"
-                         icon="el-icon-upload"
-                         size="mini"
-                         type="primary"
-                         @click="dialog2Visible=true">upload</el-button>
+                          icon="el-icon-upload"
+                          size="mini"
+                          type="primary"
+                          @click="dialog2Visible=true">upload</el-button>
               <el-dialog :visible.sync="dialog2Visible">
                 <el-upload :multiple="false"
-                           class="avatar2-uploader"
-                           :action="uploadUrl"
-                           :show-file-list="true"
-                           :on-success="handle2PictureCardPreview"
-                           :on-remove="handleRemove"
-                           name="avatar"
-                           drag
-                           method="post"
-                           enctype="multipart/form-data">
+                            class="avatar2-uploader"
+                            :action="uploadUrl"
+                            :show-file-list="true"
+                            :on-success="handle2PictureCardPreview"
+                            :on-remove="handleRemove"
+                            name="avatar"
+                            drag
+                            method="post"
+                            enctype="multipart/form-data">
                   <i class="el-icon-upload" />
                   <div class="el-upload__text">
                     将文件拖到此处，或<em>点击上传</em>
@@ -130,7 +131,8 @@
         dialog2Visible: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
-        base64: []
+        base64: [],
+        percent:0
       };
     },
     mounted() {
@@ -140,22 +142,20 @@
     methods: {
       postStorgeImage() {
         postStorgeImage(this.imageUrl).then(res => {
-          console.log(res);
+          //console.log(res);
         });
       },
       postStorge2Image() {
         postStorge2Image(this.imageUrl2).then(res => {
-          console.log(res);
+          //console.log(res);
         });
       },
       sendImage() {
         sendImage(this.imageUrl, this.imageUrl2).then(res => {
-          console.log(res);
-          this.imageUrl3 = res.data;
+          //console.log(res);
+          this.imageUrl3 = res.data.img;
+          this.percent = res.data.percent;
         });
-      },
-      Analyse() {
-
       },
       postFindImage() {
         postFindImage().then(res => {

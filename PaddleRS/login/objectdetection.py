@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponse
+from django.http import JsonResponse
 import base64
 import cv2
 import numpy as np
@@ -113,11 +114,13 @@ def recvImg(request):
     #for input in test_dataset:
     t1 = cv2.resize(t1[...,::-1], (INPUT_SIZE, INPUT_SIZE), interpolation=cv2.INTER_CUBIC)
     out = model.predict(t1,eval_transforms)
-    out = visualize_detection(
+    out,cname,score = visualize_detection(
         np.array(t1), out, 
         color=np.asarray([[0,255,0]], dtype=np.uint8), 
         threshold=0.2, save_dir=None
     )
+    print(cname,score)
+    out = cv2.cvtColor(out,cv2.COLOR_BGR2RGB)
     cv2.imwrite('od_out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
-  return HttpResponse('data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1])
+  return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],'list':{'id':1,'class':cname,'score':score}})

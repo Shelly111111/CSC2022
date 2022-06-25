@@ -25,28 +25,23 @@
               <div class="timelabel3">
                 结果分析
               </div>
-              <el-button :style="{background: color, borderColor: color}"
-                         icon="el-icon-mouse"
-                         size="mini"
-                         type="primary"
-                         @click="Analyse">analyse</el-button>
             </div>
             <div class="box-card-body">
               <div style="padding-top:35px;" class="progress-item">
                 <span>房屋</span>
-                <el-progress :percentage="0" />
+                <el-progress :percentage="class1" />
               </div>
               <div class="progress-item">
                 <span>森林</span>
-                <el-progress :percentage="0" />
+                <el-progress :percentage="class2" />
               </div>
               <div class="progress-item">
                 <span>道路</span>
-                <el-progress :percentage="0" />
+                <el-progress :percentage="class3" />
               </div>
               <div class="progress-item">
                 <span>田地</span>
-                <el-progress :percentage="0"/>
+                <el-progress :percentage="class4"/>
               </div>
             </div>
           </el-card>
@@ -111,7 +106,11 @@
         dialog2Visible: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
-        base64: []
+        base64: [],
+        class1: 0,
+        class2: 0,
+        class3: 0,
+        class4: 0
       };
     },
     mounted() {
@@ -120,17 +119,18 @@
     methods: {
       postTerrainClassificationImage() {
         postTerrainClassificationImage(this.imageUrl).then(res => {
-          console.log(res);
+          //console.log(res);
         });
       },
       sendImage2tc() {
         sendImage2tc(this.imageUrl).then(res => {
-          console.log(res);
-          this.imageUrl2 = res.data;
+          //console.log(res);
+          this.imageUrl2 = res.data.img;
+          this.class1 = res.data.class1;
+          this.class2 = res.data.class2;
+          this.class3 = res.data.class3;
+          this.class4 = res.data.class4;
         });
-      },
-      Analyse() {
-
       },
       FindTerrainClassificationImage() {
         FindTerrainClassificationImage().then(res => {

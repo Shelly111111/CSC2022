@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponse
+from django.http import JsonResponse
 import base64
 import cv2
 import numpy as np
@@ -243,8 +244,10 @@ def recvImg(request):
         pred[i:i+INFER_BATCH_SIZE] = model.net(t1[i:i+INFER_BATCH_SIZE], t2[i:i+INFER_BATCH_SIZE])[0]
       prob = paddle.nn.functional.softmax(pred, axis=1)[:,1]
       prob = recons_prob_map(prob.numpy(), ORIGINAL_SIZE, CROP_SIZE, STRIDE)
-      out = (prob>0.5)*255
+      out = prob>0.5
+      percent = out.sum().sum()/(out.shape[0]*out.shape[1])*100
+      out = out*255
       out = out.astype(np.uint8).squeeze()
       cv2.imwrite('out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
-  return HttpResponse('data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1])
+  return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],'percent':percent})

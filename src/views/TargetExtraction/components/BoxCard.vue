@@ -25,11 +25,6 @@
               <div class="timelabel3">
                 结果分析
               </div>
-              <el-button :style="{background: color, borderColor: color}"
-                         icon="el-icon-mouse"
-                         size="mini"
-                         type="primary"
-                         @click="Analyse">analyse</el-button>
             </div>
             <div class="box-card-body">
               <div class="progress-item">
@@ -108,17 +103,15 @@
     methods: {
       postTargetExtractionImage() {
         postTargetExtractionImage(this.imageUrl).then(res => {
-          console.log(res);
+          //console.log(res);
         });
       },
       sendImage2te() {
         sendImage2te(this.imageUrl).then(res => {
-          console.log(res);
-          this.imageUrl2 = res.data;
+          //console.log(res);
+          this.imageUrl2 = res.data.img;
+          this.roat = res.data.percent;
         });
-      },
-      Analyse() {
-
       },
       FindTargetExtractionImage() {
         FindTargetExtractionImage().then(res => {

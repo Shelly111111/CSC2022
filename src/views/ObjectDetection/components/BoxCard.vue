@@ -19,17 +19,12 @@
         </div>
       </el-col>
       <el-col :span="6">
-        <el-row :span="4">
+        <el-row :span="4" class="analyse">
           <el-card class="box-card-component">
             <div class="box-card-header">
               <div class="timelabel3">
                 结果分析
               </div>
-              <el-button :style="{background: color, borderColor: color}"
-                         icon="el-icon-mouse"
-                         size="mini"
-                         type="primary"
-                         @click="Analyse">analyse</el-button>
             </div>
           </el-card>
           <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%" class="el-table">
@@ -124,17 +119,17 @@
     methods: {
       postObjectDetectionImage() {
         postObjectDetectionImage(this.imageUrl).then(res => {
-          console.log(res);
+          //console.log(res);
         });
       },
       sendImage2od() {
         sendImage2od(this.imageUrl).then(res => {
-          console.log(res);
-          this.imageUrl2 = res.data;
+          //console.log(res);
+          this.imageUrl2 = res.data.img;
+          this.listLoading = true;
+          this.list = [res.data.list];
+          this.listLoading = false;
         });
-      },
-      Analyse() {
-
       },
       FindObjectDetectionImage() {
         FindObjectDetectionImage().then(res => {
@@ -217,6 +212,10 @@
     .avatar-uploader {
       width: 100%;
       margin-bottom: 20px;
+    }
+
+    .analyse {
+      position: relative;
     }
   }
 </style>

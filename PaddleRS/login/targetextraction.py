@@ -1,4 +1,5 @@
 from django.shortcuts import HttpResponse
+from django.http import JsonResponse
 import base64
 import cv2
 import numpy as np
@@ -101,7 +102,9 @@ def recvImg(request):
   with paddle.no_grad():
     for input in test_dataset:
       logits, *_ = model.net(input)
-      out = paddle.argmax(logits[0], axis=0).numpy()*255
+      out = paddle.argmax(logits[0], axis=0).numpy()
+      percent = out.sum().sum()/(out.shape[0]*out.shape[1])*100
+      out = out*255
       cv2.imwrite('te_out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
-  return HttpResponse('data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1])
+  return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],'percent':percent})
