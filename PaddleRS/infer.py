@@ -13,6 +13,125 @@ from skimage.io import imread, imsave
 from tqdm import tqdm
 from matplotlib import pyplot as plt
 
+# 定义全局变量
+# 可在此处调整实验所用超参数
+
+# 随机种子
+SEED = 199
+
+# 数据集路径
+DATA_DIR = '../data/'
+# 实验路径。实验目录下保存输出的模型权重和结果
+EXP_DIR = '../data/exp/'
+# 保存最佳模型的路径
+BEST_CKP_PATH = osp.join(EXP_DIR, 'best_model', 'model.pdparams')
+
+# 训练的epoch数
+NUM_EPOCHS = 930
+# 每多少个epoch保存一次模型权重参数
+SAVE_INTERVAL_EPOCHS = 1
+# 初始学习率
+LR = 0.001
+# 学习率衰减步长（注意，单位为迭代次数而非epoch数），即每多少次迭代将学习率衰减
+DECAY_STEP = 1000
+# 训练阶段 batch size
+TRAIN_BATCH_SIZE = 1
+# 推理阶段 batch size
+INFER_BATCH_SIZE = 1
+# 裁块大小
+CROP_SIZE = 512
+# 模型推理阶段使用的滑窗步长
+STRIDE = 64
+# 影像原始大小
+ORIGINAL_SIZE = (1024, 1024)
+
+# 调用PaddleRS API一键构建模型
+model = pdrs.tasks.BIT(
+    # 模型输出类别数
+    num_classes=2,
+    # 是否使用混合损失函数，默认使用交叉熵损失函数训练
+    use_mixed_loss=False,
+    # 模型输入通道数
+    in_channels=3,
+    # 模型使用的骨干网络，支持'resnet18'或'resnet34'
+    backbone='resnet34',
+    # 骨干网络中的resnet stage数量
+    n_stages=4,
+    # 是否使用tokenizer获取语义token
+    use_tokenizer=True,
+    # token的长度
+    token_len=4,
+    # 若不使用tokenizer，则使用池化方式获取token。此参数设置池化模式，有'max'和'avg'两种选项，分别对应最大池化与平均池化
+    pool_mode='max',
+    # 池化操作输出特征图的宽和高（池化方式得到的token的长度为pool_size的平方）
+    pool_size=2,
+    # 是否在Transformer编码器中加入位置编码（positional embedding）
+    enc_with_pos=True,
+    # Transformer编码器使用的注意力模块（attention block）个数
+    enc_depth=1,
+    # Transformer编码器中每个注意力头的嵌入维度（embedding dimension）
+    enc_head_dim=64,
+    # Transformer解码器使用的注意力模块个数
+    dec_depth=8,
+    # Transformer解码器中每个注意力头的嵌入维度
+    dec_head_dim=8
+)
+
+# 定义推理阶段使用的数据集
+
+class InferDataset(paddle.io.Dataset):
+    """
+    变化检测推理数据集。
+
+    Args:
+        data_dir (str): 数据集所在的目录路径。
+        transforms (paddlers.transforms.Compose): 需要执行的数据变换操作。
+    """
+
+    def __init__(
+        self,
+        data_dir,
+        transforms
+    ):
+        super().__init__()
+
+        self.data_dir = data_dir
+        self.transforms = deepcopy(transforms)
+
+        pdrs.transforms.arrange_transforms(
+            model_type='changedetector',
+            transforms=self.transforms,
+            mode='test'
+        )
+
+        with open(osp.join(data_dir, 'test.txt'), 'r') as f:
+            lines = f.read()
+            lines = lines.strip().split('\n')
+
+        samples = []
+        names = []
+        for line in lines:
+            items = line.strip().split(' ')
+            items = list(map(pdrs.utils.path_normalization, items))
+            item_dict = {
+                'image_t1': osp.join(data_dir, items[0]),
+                'image_t2': osp.join(data_dir, items[1])
+            }
+            samples.append(item_dict)
+            names.append(osp.basename(items[0]))
+
+        self.samples = samples
+        self.names = names
+
+    def __getitem__(self, idx):
+        sample = deepcopy(self.samples[idx])
+        output = self.transforms(sample)
+        return paddle.to_tensor(output[0]), \
+               paddle.to_tensor(output[1])
+
+    def __len__(self):
+        return len(self.samples)
+
 
 # 考虑到原始影像尺寸较大，以下类和函数与影像裁块-拼接有关。
 
@@ -138,10 +257,6 @@ test_dataloader = crop_patches(
     STRIDE
 )
 
-
-# 推理过程主循环
-info("模型推理开始")
-
 model.net.eval()
 len_test = len(test_dataset.names)
 with paddle.no_grad():
@@ -155,56 +270,7 @@ with paddle.no_grad():
         # 由patch重建完整概率图
         prob = recons_prob_map(prob.numpy(), ORIGINAL_SIZE, CROP_SIZE, STRIDE)
         # 默认将阈值设置为0.5，即，将变化概率大于0.5的像素点分为变化类
-        out = quantize(prob>0.5)
+        out = (prob>0.5)*255
+        out = out.astype(np.uint8)
 
         imsave(osp.join(out_dir, name), out, check_contrast=False)
-
-info("模型推理完成")
-
-
-# 推理结果展示
-# 重复运行本单元可以查看不同结果
-
-def show_images_in_row(im_paths, fig, title=''):
-    n = len(im_paths)
-    fig.suptitle(title)
-    axs = fig.subplots(nrows=1, ncols=n)
-    for idx, (path, ax) in enumerate(zip(im_paths, axs)):
-        # 去掉刻度线和边框
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
-        ax.spines['bottom'].set_visible(False)
-        ax.spines['left'].set_visible(False)
-        ax.get_xaxis().set_ticks([])
-        ax.get_yaxis().set_ticks([])
-
-        im = imread(path)
-        ax.imshow(im)
-
-
-# 需要展示的样本个数
-num_imgs_to_show = 4
-# 随机抽取样本
-chosen_indices = random.choices(range(len_test), k=num_imgs_to_show)
-
-# 参考 https://stackoverflow.com/a/68209152
-fig = plt.figure(constrained_layout=True)
-fig.suptitle("Inference Results")
-
-subfigs = fig.subfigures(nrows=3, ncols=1)
-
-# 读入第一时相影像
-im_paths = [osp.join(DATA_DIR, test_dataset.samples[idx]['image_t1']) for idx in chosen_indices]
-show_images_in_row(im_paths, subfigs[0], title='Image 1')
-
-# 读入第二时相影像
-im_paths = [osp.join(DATA_DIR, test_dataset.samples[idx]['image_t2']) for idx in chosen_indices]
-show_images_in_row(im_paths, subfigs[1], title='Image 2')
-
-# 读入变化图
-im_paths = [osp.join(out_dir, test_dataset.names[idx]) for idx in chosen_indices]
-show_images_in_row(im_paths, subfigs[2], title='Change Map')
-
-# 渲染结果
-fig.canvas.draw()
-Image.frombytes('RGB', fig.canvas.get_width_height(), fig.canvas.tostring_rgb())

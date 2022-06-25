@@ -26,3 +26,5 @@ data/*
 .vs
 bin
 obj/Debug
+service/upload/*
+*.pyc

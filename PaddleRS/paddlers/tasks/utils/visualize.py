@@ -255,7 +255,7 @@ def draw_bbox_mask(image, results, threshold=0.5, color_map=None):
             thickness=1,
             lineType=cv2.LINE_AA)
 
-    return image
+    return image, cname, score
 
 
 def draw_pr_curve(eval_details_file=None,
