@@ -1,6 +1,4 @@
-<p align="center">
-  # 第十一届中国软件杯大学生软件设计大赛-基于百度飞桨的遥感图像智能解译平台
-</p>
+# 第十一届中国软件杯大学生软件设计大赛-基于百度飞桨的遥感图像智能解译平台
 
 <p align="center">
   <a href="https://github.com/vuejs/vue">
