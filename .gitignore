@@ -25,6 +25,6 @@ yarn.lock
 data/*
 .vs
 bin
-obj/Debug
+obj/*
 service/upload/*
 *.pyc
