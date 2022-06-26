@@ -1,3 +1,0 @@
-G:\CSC2022\obj\Release\CSC2022.njsproj.AssemblyReference.cache
-G:\CSC2022\obj\Release\CSC2022.njsproj.CoreCompileInputs.cache
-G:\CSC2022\bin\Microsoft.NodejsTools.WebRole.dll
