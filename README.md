@@ -7,7 +7,7 @@
   <a href="https://github.com/ElemeFE/element">
     <img src="https://img.shields.io/badge/element--ui-2.7.0-brightgreen.svg" alt="element-ui">
   </a>
-  <a href="">
+  <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/python-3.7+-aff.svg" alt="python3.7+">
   </a>
   <a href="https://github.com/PanJiaChen/vue-element-admin/blob/master/LICENSE">
