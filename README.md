@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="320" src="https://wpimg.wallstcn.com/ecc53a42-d79b-42e2-8852-5126b810a4c8.svg">
+  第十一届中国软件杯大学生软件设计大赛-基于百度飞桨的遥感图像智能解译平台
 </p>
 
 <p align="center">
@@ -11,6 +11,9 @@
   </a>
   <a href="https://travis-ci.org/PanJiaChen/vue-element-admin" rel="nofollow">
     <img src="https://travis-ci.org/PanJiaChen/vue-element-admin.svg?branch=master" alt="Build Status">
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/python-3.7+-aff.svg">
   </a>
   <a href="https://github.com/PanJiaChen/vue-element-admin/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="license">
@@ -28,6 +31,14 @@
       <td align="center" valign="middle">
        <a href="https://github.com/PanJiaChen/vue-element-admin/" title="variantForm" target="_blank" style="padding-right: 20px;">
       <img height="200px" style="padding-right: 20px;" src="https://wpimg.wallstcn.com/ecc53a42-d79b-42e2-8852-5126b810a4c8.svg" title="variantForm">
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+       <a href="https://github.com/PaddleCV-SIG/PaddleRS/" title="variantForm" target="_blank" style="padding-right: 20px;">
+      <img height="200px" style="padding-right: 20px;" src="https://github.com/PaddleCV-SIG/PaddleRS/blob/develop/docs/images/logo.png" title="variantForm">
       </td>
     </tr>
   </tbody>
