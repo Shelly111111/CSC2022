@@ -1,5 +1,5 @@
 <p align="center">
-  第十一届中国软件杯大学生软件设计大赛-基于百度飞桨的遥感图像智能解译平台
+  # 第十一届中国软件杯大学生软件设计大赛-基于百度飞桨的遥感图像智能解译平台
 </p>
 
 <p align="center">
@@ -8,9 +8,6 @@
   </a>
   <a href="https://github.com/ElemeFE/element">
     <img src="https://img.shields.io/badge/element--ui-2.7.0-brightgreen.svg" alt="element-ui">
-  </a>
-  <a href="https://travis-ci.org/PanJiaChen/vue-element-admin" rel="nofollow">
-    <img src="https://travis-ci.org/PanJiaChen/vue-element-admin.svg?branch=master" alt="Build Status">
   </a>
   <a href="">
     <img src="https://img.shields.io/badge/python-3.7+-aff.svg">
