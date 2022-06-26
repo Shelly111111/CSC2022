@@ -41,48 +41,12 @@
 
 ## 简介
 
-[vue-element-admin](https://panjiachen.github.io/vue-element-admin) 是一个后台前端解决方案，它基于 [vue](https://github.com/vuejs/vue) 和 [element-ui](https://github.com/ElemeFE/element)实现。它使用了最新的前端技术栈，内置了 i18n 国际化解决方案，动态路由，权限验证，提炼了典型的业务模型，提供了丰富的功能组件，它可以帮助你快速搭建企业级中后台产品原型。相信不管你的需求是什么，本项目都能帮助到你。
-
-- [在线预览](https://panjiachen.github.io/vue-element-admin)
-
-- [使用文档](https://panjiachen.github.io/vue-element-admin-site/zh/)
-
-- [Gitee](https://panjiachen.gitee.io/vue-element-admin/) 在线预览（国内用户可访问该地址）
-
-- [国内访问文档](https://panjiachen.gitee.io/vue-element-admin-site/zh/) 文档（方便没翻墙的用户查看）
-
-- 基础模板建议使用: [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
-- 桌面端: [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-- Typescript 版: [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (鸣谢: [@Armour](https://github.com/Armour))
-- [awesome-project](https://github.com/PanJiaChen/vue-element-admin/issues/2312)
+本项目基于[PaddleRS](https://github.com/PaddleCV-SIG/PaddleRS)、[vue-element-admin](https://panjiachen.github.io/vue-element-admin)以及python第三方库[django](https://github.com/django/django)联合开发，用于[第十一届中国软件杯大学生软件设计大赛A4赛题](http://www.cnsoftbei.com/plus/view.php?aid=706)，实现基于百度飞桨的遥感图像智能解译平台。
 
 ## 前序准备
 
-你需要在本地安装 [node](http://nodejs.org/) 和 [git](https://git-scm.com/)。本项目技术栈基于 [ES2015+](http://es6.ruanyifeng.com/)、[vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/) 、[vue-cli](https://github.com/vuejs/vue-cli) 、[axios](https://github.com/axios/axios) 和 [element-ui](https://github.com/ElemeFE/element)，所有的请求数据都使用[Mock.js](https://github.com/nuysoft/Mock)进行模拟，提前了解和学习这些知识会对使用本项目有很大的帮助。
+你需要在本地安装[python3.7+](https://www.python.org/)、[node](http://nodejs.org/)、[PaddlePaddle](https://www.paddlepaddle.org.cn/)、[MySQL](https://www.mysql.com/)，如有显卡且显存＞8G的用户，建议安装对应的[CUDA](https://developer.nvidia.com/cuda-toolkit-archive)和[cuDNN](https://developer.nvidia.com/rdp/cudnn-archive)。
 
-同时配套了系列教程文章，如何从零构建后一个完整的后台项目，建议大家先看完这些文章再来实践本项目
-
-- [手摸手，带你用 vue 撸后台 系列一(基础篇)](https://juejin.im/post/59097cd7a22b9d0065fb61d2)
-- [手摸手，带你用 vue 撸后台 系列二(登录权限篇)](https://juejin.im/post/591aa14f570c35006961acac)
-- [手摸手，带你用 vue 撸后台 系列三 (实战篇)](https://juejin.im/post/593121aa0ce4630057f70d35)
-- [手摸手，带你用 vue 撸后台 系列四(vueAdmin 一个极简的后台基础模板)](https://juejin.im/post/595b4d776fb9a06bbe7dba56)
-- [手摸手，带你用vue撸后台 系列五(v4.0新版本)](https://juejin.im/post/5c92ff94f265da6128275a85)
-- [手摸手，带你封装一个 vue component](https://segmentfault.com/a/1190000009090836)
-- [手摸手，带你优雅的使用 icon](https://juejin.im/post/59bb864b5188257e7a427c09)
-- [手摸手，带你用合理的姿势使用 webpack4（上）](https://juejin.im/post/5b56909a518825195f499806)
-- [手摸手，带你用合理的姿势使用 webpack4（下）](https://juejin.im/post/5b5d6d6f6fb9a04fea58aabc)
-
-**如有问题请先看上述使用文档和文章，若不能满足，欢迎 issue 和 pr**
-
-[![Edit on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/PanJiaChen/vue-element-admin/tree/CodeSandbox)
-
-<p align="center">
-  <img width="900" src="https://wpimg.wallstcn.com/a5894c1b-f6af-456e-82df-1151da0839bf.png">
-</p>
-
-## Sponsors
-
-Become a sponsor and get your logo on our README on GitHub with a link to your site. [[Become a sponsor]](https://www.patreon.com/panjiachen)
 
 
 ## 功能
@@ -90,32 +54,17 @@ Become a sponsor and get your logo on our README on GitHub with a link to your s
 ```
 - 登录 / 注销
 
-- 权限验证
-  - 页面权限
-  - 指令权限
-  - 权限配置
-  - 二步登录
-
-- 多环境发布
-  - dev
-  - sit
-  - stage
-  - prod
-
 - 全局功能
-  - 国际化多语言
-  - 多种动态换肤
-  - 动态侧边栏（支持多级路由嵌套）
-  - 动态面包屑
-  - 快捷导航(标签页)
-  - Svg Sprite 图标
-  - 本地/后端 mock 数据
-  - Screenfull全屏
-  - 自适应收缩侧边栏
+  - 变化检测
+  - 目标提取
+  - 地物分类
+  - 目标检测
 
 ```
 
 ## 开发
+
+### 运行主服务
 
 ```bash
 # 克隆项目
@@ -136,30 +85,27 @@ npm run dev
 
 浏览器访问 http://localhost:9527
 
-## 发布
+### 运行数据库服务
 
 ```bash
-# 构建测试环境
-npm run build:stage
+# 进入项目目录
+cd CSC2022/service
 
-# 构建生产环境
-npm run build:prod
+# 安装npm依赖
+npm install
+
+#运行服务
+node app.js
 ```
 
-## 其它
+### 运行遥感图像解析服务
 
 ```bash
-# 预览发布环境效果
-npm run preview
+# 进入项目目录
+cd CSC2022/PaddleRS
 
-# 预览发布环境效果 + 静态资源分析
-npm run preview -- --report
-
-# 代码格式检查
-npm run lint
-
-# 代码格式检查并自动修复
-npm run lint -- --fix
+#运行服务
+python manage.py runserver 8000
 ```
 
 
@@ -171,4 +117,8 @@ npm run lint -- --fix
 
 ## 感谢
 
+感谢[PaddleRS](https://github.com/PaddleCV-SIG/PaddleRS)团队开源的代码
+
 感谢[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)团队开源的代码
+
+感谢[Django](https://github.com/django/django)团队开源的代码
