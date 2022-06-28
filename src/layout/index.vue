@@ -1,8 +1,8 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+    <div class="main-container">
+      <div>
         <navbar />
       </div>
       <app-main />

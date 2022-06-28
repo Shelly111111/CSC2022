@@ -315,7 +315,7 @@ let orm = {
             password, //密码，没有可不填
             database //数据库名称
         };
-        connection = mysql.createConnection(options);
+        connection = mysql.createPool(options);
 
     },
     /**
