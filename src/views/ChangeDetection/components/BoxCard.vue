@@ -50,6 +50,7 @@
                             class="avatar-uploader"
                             :action="uploadUrl"
                             :show-file-list="true"
+                            :before-upload="handleBefore1Upload"
                             :on-success="handlePictureCardPreview"
                             :on-remove="handleRemove"
                             name="avatar"
@@ -61,7 +62,7 @@
                     将文件拖到此处，或<em>点击上传</em>
                   </div>
                 </el-upload>
-                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button @click="dialog1Visible = false">Cancel</el-button>
                 <el-button type="primary" @click="handleSubmit">Confirm</el-button>
               </el-dialog>
             </div>
@@ -86,6 +87,7 @@
                             class="avatar2-uploader"
                             :action="uploadUrl"
                             :show-file-list="true"
+                            :before-upload="handleBefore2Upload"
                             :on-success="handle2PictureCardPreview"
                             :on-remove="handleRemove"
                             name="avatar"
@@ -97,7 +99,7 @@
                     将文件拖到此处，或<em>点击上传</em>
                   </div>
                 </el-upload>
-                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button @click="dialog2Visible = false">Cancel</el-button>
                 <el-button type="primary" @click="handle2Submit">Confirm</el-button>
               </el-dialog>
             </div>
@@ -127,6 +129,8 @@
         imageUrl: "",
         imageUrl2: "",
         imageUrl3: "",
+        uploaded1: false,
+        uploaded2: false,
         dialog1Visible: false,
         dialog2Visible: false,
         fileList: [],
@@ -169,23 +173,57 @@
           this.imageUrl2 = result2[result2.length - 1].imgSrc;
         });
       },
+      handleBefore1Upload(file) {
+        this.uploaded1 = false;
+        const uploadTypes = ['jpg', 'png'];
+        const filetype = file.name.replace(/.+\./, '');
+        if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+          this.$message.warning({
+            message: '请上传后缀名为jpg、png的附件'
+          });
+          return false;
+        }
+        return true;
+      },
+      handleBefore2Upload(file) {
+        this.uploaded2 = false;
+        const uploadTypes = ['jpg', 'png'];
+        const filetype = file.name.replace(/.+\./, '');
+        if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+          this.$message.warning({
+            message: '请上传后缀名为jpg、png的附件'
+          });
+          return false;
+        }
+        return true;
+      },
       handleSubmit() {
+        if (!this.uploaded1) {
+          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          return;
+        }
         this.postStorgeImage();
-        this.dialog1Visible = false
+        this.dialog1Visible = false;
       },
       handle2Submit() {
+        if (!this.uploaded2) {
+          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          return;
+        }
         this.postStorge2Image();
-        this.dialog2Visible = false
+        this.dialog2Visible = false;
       },
       // 成功的回调
       handlePictureCardPreview(file) {
         this.imageUrl = file;
         this.base64.push(file);
+        this.uploaded1 = true;
       },
       // 成功的回调
       handle2PictureCardPreview(file) {
         this.imageUrl2 = file;
         this.base64.push(file);
+        this.uploaded2 = true;
       },
       // 移除图片
       handleRemove(file, fileList) {
