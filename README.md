@@ -111,7 +111,7 @@ python manage.py runserver 8000
 
 ## Online Demo
 
-[在线 Demo](https://panjiachen.github.io/vue-element-admin)
+[在线 Demo](http://120.48.87.7:9527/)
 
 
 

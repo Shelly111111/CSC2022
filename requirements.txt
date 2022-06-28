@@ -1,0 +1,15 @@
+django
+django-cors-headers
+opencv-python
+protobuf<=3.20.1
+tqdm
+filelock
+scikit-learn
+pycocotools
+lap
+motmetrics
+openpyxl
+shapely
+scikit-image
+paddleslim
+munch

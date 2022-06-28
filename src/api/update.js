@@ -2,29 +2,31 @@ import { instance } from '../utils/request'
 
 import axios from 'axios'
 
+var url = 'http://localhost:8000';
+
 export function sendImage(imgSrc1, imgSrc2) {
   var data = new URLSearchParams();
   data.append('img1', imgSrc1);
   data.append('img2', imgSrc2);
-  return axios.post('http://localhost:8000/cdrecvImg', data)
+  return axios.post(url+'/cdrecvImg', data)
 }
 
 export function sendImage2te(imgSrc) {
   var data = new URLSearchParams();
   data.append('img', imgSrc);
-  return axios.post('http://localhost:8000/terecvImg', data)
+  return axios.post(url+'/terecvImg', data)
 }
 
 export function sendImage2tc(imgSrc) {
   var data = new URLSearchParams();
   data.append('img', imgSrc);
-  return axios.post('http://localhost:8000/tcrecvImg', data)
+  return axios.post(url+'/tcrecvImg', data)
 }
 
 export function sendImage2od(imgSrc) {
   var data = new URLSearchParams();
   data.append('img', imgSrc);
-  return axios.post('http://localhost:8000/odrecvImg', data)
+  return axios.post(url+'/odrecvImg', data)
 }
 
 export function postStorgeImage(imgSrc) {

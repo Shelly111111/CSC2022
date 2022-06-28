@@ -105,6 +105,7 @@ def recvImg(request):
       out = paddle.argmax(logits[0], axis=0).numpy()
       percent = out.sum().sum()/(out.shape[0]*out.shape[1])*100
       out = out*255
+      out = out.astype(np.uint8)
       cv2.imwrite('te_out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
   return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],'percent':percent})

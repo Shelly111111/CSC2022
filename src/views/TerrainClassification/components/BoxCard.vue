@@ -62,6 +62,7 @@
                            class="avatar-uploader"
                            :action="uploadUrl"
                            :show-file-list="true"
+                           :before-upload="handleBeforeUpload"
                            :on-success="handlePictureCardPreview"
                            :on-remove="handleRemove"
                            name="avatar"
@@ -73,7 +74,7 @@
                     将文件拖到此处，或<em>点击上传</em>
                   </div>
                 </el-upload>
-                <el-button @click="dialogVisible = false">Cancel</el-button>
+                <el-button @click="dialog1Visible = false">Cancel</el-button>
                 <el-button type="primary" @click="handleSubmit">Confirm</el-button>
               </el-dialog>
             </div>
@@ -103,7 +104,7 @@
         imageUrl: "",
         imageUrl2: "",
         dialog1Visible: false,
-        dialog2Visible: false,
+        uploaded: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
         base64: [],
@@ -138,14 +139,31 @@
           this.imageUrl = this.result[this.result.length - 1].imgSrc;
         });
       },
+      handleBeforeUpload(file) {
+        this.uploaded = false;
+        const uploadTypes = ['jpg', 'png'];
+        const filetype = file.name.replace(/.+\./, '');
+        if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+          this.$message.warning({
+            message: '请上传后缀名为jpg、png的附件'
+          });
+          return false;
+        }
+        return true;
+      },
       handleSubmit() {
+        if (!this.uploaded) {
+          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          return;
+        }
         this.postTerrainClassificationImage();
-        this.dialog1Visible = false
+        this.dialog1Visible = false;
       },
       // 成功的回调
       handlePictureCardPreview(file) {
         this.imageUrl = file;
         this.base64.push(file);
+        this.uploaded = true;
       },
       // 移除图片
       handleRemove(file, fileList) {
