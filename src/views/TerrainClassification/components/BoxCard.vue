@@ -28,22 +28,25 @@
               </div>
             </div>
             <div class="box-card-body">
-              <div style="padding-top:35px;" class="progress-item">
-                <span>房屋</span>
-                <el-progress :percentage="class1" />
-              </div>
-              <div class="progress-item">
-                <span>森林</span>
-                <el-progress :percentage="class2" />
-              </div>
-              <div class="progress-item">
-                <span>道路</span>
-                <el-progress :percentage="class3" />
-              </div>
-              <div class="progress-item">
-                <span>田地</span>
-                <el-progress :percentage="class4"/>
-              </div>
+              <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%" class="el-table">
+                <el-table-column align="center" label="Class" min-width="100px">
+                  <template slot-scope="{row}">
+                    <span>{{ row.class }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="Percent" min-width="100px">
+                  <template slot-scope="{row}">
+                    <span>{{ row.percent }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column align="center" label="Color" min-width="100px">
+                  <template slot-scope="{row}">
+                    <el-tag :color="row.color">
+                      <span>{{ row.color }}</span>
+                    </el-tag>
+                  </template>
+                </el-table-column>
+              </el-table>
             </div>
           </el-card>
         </el-row>
@@ -109,11 +112,8 @@
         uploaded: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
-        base64: [],
-        class1: 0,
-        class2: 0,
-        class3: 0,
-        class4: 0
+        list: null,
+        listLoading: false,
       };
     },
     mounted() {
@@ -134,10 +134,9 @@
         sendImage2tc(this.imageUrl).then(res => {
           //console.log(res);
           this.imageUrl2 = res.data.img;
-          this.class1 = res.data.class1;
-          this.class2 = res.data.class2;
-          this.class3 = res.data.class3;
-          this.class4 = res.data.class4;
+          this.listLoading = true;
+          this.list = res.data.list;
+          this.listLoading = false;
           this.disabled = false;
         });
       },

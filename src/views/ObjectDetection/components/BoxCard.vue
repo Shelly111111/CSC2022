@@ -136,7 +136,7 @@
           //console.log(res);
           this.imageUrl2 = res.data.img;
           this.listLoading = true;
-          this.list = [res.data.list];
+          this.list = res.data.list;
           this.listLoading = false;
           this.disabled = false;
         });
