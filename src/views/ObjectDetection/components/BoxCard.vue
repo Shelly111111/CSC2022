@@ -8,6 +8,7 @@
               检测图片
             </span>
             <el-button :style="{background: color, borderColor: color}"
+                       :disabled ="disabled"
                        icon="el-icon-mouse"
                        size="mini"
                        type="primary"
@@ -106,6 +107,7 @@
       return {
         imageUrl: "",
         imageUrl2: "",
+        disabled: false,
         list: null,
         listLoading: false,
         dialog1Visible: false,
@@ -125,18 +127,27 @@
         });
       },
       sendImage2od() {
+        if (!this.uploaded) {
+          this.$message('原始图片未上传或未加载成功!');
+          return;
+        }
+        this.disabled = true;
         sendImage2od(this.imageUrl).then(res => {
           //console.log(res);
           this.imageUrl2 = res.data.img;
           this.listLoading = true;
           this.list = [res.data.list];
           this.listLoading = false;
+          this.disabled = false;
         });
       },
       FindObjectDetectionImage() {
         FindObjectDetectionImage().then(res => {
           this.result = res.data.result;
-          this.imageUrl = this.result[this.result.length - 1].imgSrc;
+          if (this.result.length > 0) {
+            this.imageUrl = this.result[this.result.length - 1].imgSrc;
+            this.uploaded = true;
+          }
         });
       },
       handleBeforeUpload(file) {
@@ -153,7 +164,7 @@
       },
       handleSubmit() {
         if (!this.uploaded) {
-          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          this.$message('请等待原始图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
           return;
         }
         this.postObjectDetectionImage();
