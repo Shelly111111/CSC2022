@@ -36,16 +36,12 @@
             </el-table-column>
             <el-table-column align="center" label="Class" min-width="100px">
               <template slot-scope="{row}">
-                <el-tag :type="row.class">
-                  {{ row.class }}
-                </el-tag>
+                <span>{{ row.class }}</span>
               </template>
             </el-table-column>
             <el-table-column align="center" label="Score" min-width="100px">
               <template slot-scope="{row}">
-                <el-tag :type="row.score">
-                  {{ row.score }}
-                </el-tag>
+                <span>{{ row.score }}</span>
               </template>
             </el-table-column>
           </el-table>
