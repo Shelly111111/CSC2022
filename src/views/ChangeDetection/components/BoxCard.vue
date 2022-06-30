@@ -8,6 +8,7 @@
               检测图片
             </span>
             <el-button :style="{background: color, borderColor: color}"
+                       :disabled ="disabled"
                        icon="el-icon-mouse"
                        size="mini"
                        type="primary"
@@ -129,6 +130,7 @@
         imageUrl: "",
         imageUrl2: "",
         imageUrl3: "",
+        disabled: false,
         uploaded1: false,
         uploaded2: false,
         dialog1Visible: false,
@@ -155,22 +157,38 @@
         });
       },
       sendImage() {
+        if (!this.uploaded1) {
+          this.$message('原始图片未上传或未加载成功!');
+          return;
+        }
+        if (!this.uploaded2) {
+          this.$message('变化图片未上传或未加载成功!');
+          return;
+        }
+        this.disabled = true;
         sendImage(this.imageUrl, this.imageUrl2).then(res => {
           //console.log(res);
           this.imageUrl3 = res.data.img;
           this.percent = res.data.percent;
+          this.disabled = false;
         });
       },
       postFindImage() {
         postFindImage().then(res => {
           var result1 = res.data.result;
-          this.imageUrl = result1[result1.length - 1].imgSrc;
+          if (result1.length > 0) {
+            this.imageUrl = result1[result1.length - 1].imgSrc;
+            this.uploaded1 = true;
+          }
         });
       },
       postFind2Image() {
         postFind2Image().then(res => {
           var result2 = res.data.result;
-          this.imageUrl2 = result2[result2.length - 1].imgSrc;
+          if (result2.length > 0) {
+            this.imageUrl2 = result2[result2.length - 1].imgSrc;
+            this.uploaded2 = true;
+          }
         });
       },
       handleBefore1Upload(file) {
@@ -199,7 +217,7 @@
       },
       handleSubmit() {
         if (!this.uploaded1) {
-          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          this.$message('请等待原始图片上传成功。 如果出现网络问题，请刷新页面重新上传!');
           return;
         }
         this.postStorgeImage();
@@ -207,7 +225,7 @@
       },
       handle2Submit() {
         if (!this.uploaded2) {
-          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          this.$message('请等待变化图片上传成功。 如果出现网络问题，请刷新页面重新上传!');
           return;
         }
         this.postStorge2Image();

@@ -8,6 +8,7 @@
               检测图片
             </span>
             <el-button :style="{background: color, borderColor: color}"
+                       :disabled ="disabled"
                        icon="el-icon-mouse"
                        size="mini"
                        type="primary"
@@ -21,30 +22,33 @@
       <el-col :span="6">
         <el-row :span="4">
           <el-card class="box-card-component">
-            <div class="box-card-header" slot="header">
+            <div class="box-card-header">
               <div class="timelabel3">
                 结果分析
               </div>
             </div>
-            <div class="box-card-body">
-              <div style="padding-top:35px;" class="progress-item">
-                <span>房屋</span>
-                <el-progress :percentage="class1" />
-              </div>
-              <div class="progress-item">
-                <span>森林</span>
-                <el-progress :percentage="class2" />
-              </div>
-              <div class="progress-item">
-                <span>道路</span>
-                <el-progress :percentage="class3" />
-              </div>
-              <div class="progress-item">
-                <span>田地</span>
-                <el-progress :percentage="class4"/>
-              </div>
-            </div>
           </el-card>
+          <div class="box-card-body">
+            <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%" class="el-table">
+              <el-table-column align="center" label="Class" min-width="100px">
+                <template slot-scope="{row}">
+                  <span>{{ row.class }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="Percent" min-width="100px">
+                <template slot-scope="{row}">
+                  <span>{{ row.percent }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="Color" min-width="100px">
+                <template slot-scope="{row}">
+                  <el-tag :color="row.color">
+                    <span>{{ row.color }}</span>
+                  </el-tag>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
         </el-row>
         <el-row :span="4">
           <el-card class="box-card-component">
@@ -103,15 +107,13 @@
       return {
         imageUrl: "",
         imageUrl2: "",
+        disabled: false,
         dialog1Visible: false,
         uploaded: false,
         fileList: [],
         uploadUrl: "http://localhost:3001/upload",
-        base64: [],
-        class1: 0,
-        class2: 0,
-        class3: 0,
-        class4: 0
+        list: null,
+        listLoading: false,
       };
     },
     mounted() {
@@ -124,19 +126,27 @@
         });
       },
       sendImage2tc() {
+        if (!this.uploaded) {
+          this.$message('原始图片未上传或未加载成功!');
+          return;
+        }
+        this.disabled = true;
         sendImage2tc(this.imageUrl).then(res => {
           //console.log(res);
           this.imageUrl2 = res.data.img;
-          this.class1 = res.data.class1;
-          this.class2 = res.data.class2;
-          this.class3 = res.data.class3;
-          this.class4 = res.data.class4;
+          this.listLoading = true;
+          this.list = res.data.list;
+          this.listLoading = false;
+          this.disabled = false;
         });
       },
       FindTerrainClassificationImage() {
         FindTerrainClassificationImage().then(res => {
           this.result = res.data.result;
-          this.imageUrl = this.result[this.result.length - 1].imgSrc;
+          if (this.result.length > 0) {
+            this.imageUrl = this.result[this.result.length - 1].imgSrc;
+            this.uploaded = true;
+          }
         });
       },
       handleBeforeUpload(file) {
@@ -153,7 +163,7 @@
       },
       handleSubmit() {
         if (!this.uploaded) {
-          this.$message('请等待图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
+          this.$message('请等待原始图片上传成功。 如果出现网络问题，请刷新页面重新上传!')
           return;
         }
         this.postTerrainClassificationImage();

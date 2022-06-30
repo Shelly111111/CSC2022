@@ -117,8 +117,15 @@ def recvImg(request):
       class2 = (out==1).sum().sum()/(out.shape[0]*out.shape[1])*100
       class3 = (out==2).sum().sum()/(out.shape[0]*out.shape[1])*100
       class4 = (out==3).sum().sum()/(out.shape[0]*out.shape[1])*100
+      class5 = (out==4).sum().sum()/(out.shape[0]*out.shape[1])*100
       out = lut[out]
       cv2.imwrite('tc_out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
+
   return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],
-                       'class1':class1,'class2':class2,'class3':class3,'class4':class4})
+                      'list':[{'class':'建筑','percent':'{:.2f}%'.format(class1),'color':'#0000FF'},
+                              {'class':'耕地','percent':'{:.2f}%'.format(class2),'color':'#8EFF1E'},
+                              {'class':'林地','percent':'{:.2f}%'.format(class3),'color':'#FF003C'},
+                              {'class':'其他','percent':'{:.2f}%'.format(class4),'color':'#00DEFF'}
+                              ]
+                      })

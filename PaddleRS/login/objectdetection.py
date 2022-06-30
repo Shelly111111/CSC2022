@@ -123,4 +123,4 @@ def recvImg(request):
     out = cv2.cvtColor(out.astype(np.uint8),cv2.COLOR_BGR2RGB)
     cv2.imwrite('od_out.png',out)
   retval,img_buffer = cv2.imencode('.jpg', out)
-  return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],'list':{'id':1,'class':cname,'score':str(score)}})
+  return JsonResponse({'img':'data:false;base64,'+str(base64.b64encode(img_buffer))[2:-1],'list':[{'id':1,'class':cname,'score':'{:.2f}'.format(score)}]})
