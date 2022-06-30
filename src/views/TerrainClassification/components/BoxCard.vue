@@ -22,33 +22,33 @@
       <el-col :span="6">
         <el-row :span="4">
           <el-card class="box-card-component">
-            <div class="box-card-header" slot="header">
+            <div class="box-card-header">
               <div class="timelabel3">
                 结果分析
               </div>
             </div>
-            <div class="box-card-body">
-              <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%" class="el-table">
-                <el-table-column align="center" label="Class" min-width="100px">
-                  <template slot-scope="{row}">
-                    <span>{{ row.class }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="Percent" min-width="100px">
-                  <template slot-scope="{row}">
-                    <span>{{ row.percent }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="Color" min-width="100px">
-                  <template slot-scope="{row}">
-                    <el-tag :color="row.color">
-                      <span>{{ row.color }}</span>
-                    </el-tag>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </div>
           </el-card>
+          <div class="box-card-body">
+            <el-table v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%" class="el-table">
+              <el-table-column align="center" label="Class" min-width="100px">
+                <template slot-scope="{row}">
+                  <span>{{ row.class }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="Percent" min-width="100px">
+                <template slot-scope="{row}">
+                  <span>{{ row.percent }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column align="center" label="Color" min-width="100px">
+                <template slot-scope="{row}">
+                  <el-tag :color="row.color">
+                    <span>{{ row.color }}</span>
+                  </el-tag>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
         </el-row>
         <el-row :span="4">
           <el-card class="box-card-component">
