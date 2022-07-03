@@ -157,11 +157,11 @@
         });
       },
       sendImage() {
-        if (!this.uploaded1) {
+        if (this.imageUrl=="") {
           this.$message('原始图片未上传或未加载成功!');
           return;
         }
-        if (!this.uploaded2) {
+        if (this.imageUrl2=="") {
           this.$message('变化图片未上传或未加载成功!');
           return;
         }
