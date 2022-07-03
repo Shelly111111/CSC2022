@@ -123,7 +123,7 @@
         });
       },
       sendImage2od() {
-        if (!this.uploaded) {
+        if (this.imageUrl=="") {
           this.$message('原始图片未上传或未加载成功!');
           return;
         }
