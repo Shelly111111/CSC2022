@@ -104,8 +104,23 @@ node app.js
 # 进入项目目录
 cd CSC2022/PaddleRS
 
+# 安装python第三方库依赖
+pip install -r requirements.txt
+
 #运行服务
 python manage.py runserver 8000
+```
+
+*注意，由于模型太大，我们并未将模型上传到GitHub上，使用百度网盘链接：https://pan.baidu.com/s/1PHnDI8F2ArvXIVLNzcAOgQ 提取码：oipx，下载并解压到data目录下。
+
+目录结构应为：
+
+```
+data/
+  - exp/
+  - od_exp/
+  - tc_exp/
+  - te_exp/
 ```
 
 
