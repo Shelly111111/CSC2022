@@ -122,3 +122,9 @@ python manage.py runserver 8000
 感谢[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)团队开源的代码
 
 感谢[Django](https://github.com/django/django)团队开源的代码
+
+
+
+## 开发团队
+
+WUST_CSC2022
