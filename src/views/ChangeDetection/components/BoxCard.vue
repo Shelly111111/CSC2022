@@ -233,15 +233,15 @@
       },
       // 成功的回调
       handlePictureCardPreview(file) {
+        this.uploaded1 = true;
         this.imageUrl = file;
         this.base64.push(file);
-        this.uploaded1 = true;
       },
       // 成功的回调
       handle2PictureCardPreview(file) {
+        this.uploaded2 = true;
         this.imageUrl2 = file;
         this.base64.push(file);
-        this.uploaded2 = true;
       },
       // 移除图片
       handleRemove(file, fileList) {

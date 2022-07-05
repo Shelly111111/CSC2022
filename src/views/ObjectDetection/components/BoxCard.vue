@@ -168,9 +168,9 @@
       },
       // 成功的回调
       handlePictureCardPreview(file) {
+        this.uploaded = true;
         this.imageUrl = file;
         this.base64.push(file);
-        this.uploaded = true;
       },
       // 移除图片
       handleRemove(file, fileList) {
