@@ -111,7 +111,7 @@ pip install -r requirements.txt
 python manage.py runserver 8000
 ```
 
-*注意，由于模型太大，我们并未将模型上传到GitHub上，使用百度网盘链接：https://pan.baidu.com/s/1PHnDI8F2ArvXIVLNzcAOgQ 提取码：oipx，下载并解压到data目录下。
+*注意，由于模型太大，我们并未将模型上传到GitHub上，使用百度网盘链接：https://pan.baidu.com/s/1j3LmdBGRD836Fmeaa6IQmw 提取码：b5t0，下载并解压到data目录下。
 
 目录结构应为：
 
