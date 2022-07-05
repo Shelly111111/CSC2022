@@ -1,3 +1,4 @@
+paddleseg
 django
 django-cors-headers
 opencv-python
