@@ -29,7 +29,7 @@ Model.prototype.find = function(options, callback) {
             isConnect = true;
             var str = '';
             if (!callback) {
-                str = `select * from ${this.name}`;
+                str = `select * from ${this.name} order by id desc limit 1`;
                 callback = options;
             } else if (options.constructor == Array) {
                 str = `select ${options.join()} from ${this.name}`;
@@ -48,7 +48,7 @@ Model.prototype.find = function(options, callback) {
 
         var str = '';
         if (!callback) {
-            str = `select * from ${this.name}`;
+            str = `select * from ${this.name} order by id desc limit 1`;
             callback = options;
         } else if (options.constructor == Array) {
             str = `select ${options.join()} from ${this.name}`;
