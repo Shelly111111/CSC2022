@@ -111,7 +111,7 @@ pip install -r requirements.txt
 python manage.py runserver 8000
 ```
 
-*注意，由于模型太大，我们并未将模型上传到GitHub上，使用百度网盘链接：https://pan.baidu.com/s/1PHnDI8F2ArvXIVLNzcAOgQ 提取码：oipx，下载并解压到data目录下。
+*注意，由于模型太大，我们并未将模型上传到GitHub上，使用百度网盘链接：https://pan.baidu.com/s/1j3LmdBGRD836Fmeaa6IQmw 提取码：b5t0，下载并解压到data目录下。
 
 目录结构应为：
 
@@ -128,6 +128,7 @@ data/
 
 [在线 Demo](http://120.48.87.7:9527/)
 
+到期时间：2022-09-26 17:49:10
 
 
 ## 感谢
@@ -143,3 +144,7 @@ data/
 ## 开发团队
 
 WUST_CSC2022
+
+## 说明
+
+本项目是第十一届中国软件杯大学生软件设计大赛项目，虽并未获奖，但仍开源致意，以供学习。
